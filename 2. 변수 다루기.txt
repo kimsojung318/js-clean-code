@@ -1,24 +1,17 @@
-- **2-1. var를 지양하자**
-    - const를 주로 사용해야 한다.
+2-1. var를 지양하자
+	- const를 주로 사용해야 한다.
     
-    ## 2-1-1. var란?
-    
-    - 함수 스코프를 가진다
-    
-    ### var 코드의 위험성
-    
-    - 동일한 변수 선언 시
-        
-        ```jsx
+    2-1-1. var란?
+		- 함수 스코프를 가진다
+    	- var 코드의 위험성 : 동일한 변수 선언 시
+		
         var name = "이름";
         var name = "이름1";
         var name = "이름2";
         
         // 이름2 출력 → 가장 마지막에 할당한 변수가 출력됨
         console.log(name); 
-        ```
         
-        ```jsx
         // undefined → Error 발생 X
         console.log(name); 
         
@@ -27,32 +20,21 @@
         var name = "이름2";
         
         // 재할당 및 재선언(중복선언) 가능
-        ```
         
-    
-    ## 2-1-2. let & const란?
-    
-    - 블록 단위 스코프와 Temporal Dead Zone 속성을 가진다.
-    → 안전한 코드 생성 가능
-    
-    ### var → const(or let) 변수로 변환
-    
-    - 동일한 변수 선언 시
-        
-        ```jsx
+    2-1-2. let & const란?
+    	- 블록 단위 스코프와 Temporal Dead Zone 속성을 가진다.
+    		→ 안전한 코드 생성 가능
+    	- var → const(or let) 변수로 변환
+	
+    	// 동일한 변수 선언 시
         const name = "이름";
         const name = "이름1";
         const name = "이름2";
         
         // SyntaxError : Identifier 'name' has already been declared
-        ```
         
-    
-    ### let 변수란?
-    
-    - 선언 후 재할당이 가능하다.
+    	- let 변수란? : 선언 후 재할당이 가능하다.
         
-        ```jsx
         let name;
         
         name = "이름";
@@ -60,14 +42,9 @@
         
         name = "이름2";
         console.log(name); // 이름2
-        ```
-        
     
-    ### const 변수란?
-    
-    - 선언 후 재할당이 불가능하다.
-        
-        ```jsx
+    	- const 변수란? : 선언 후 재할당이 불가능하다.
+
         const name;
         
         name = "이름";
@@ -77,17 +54,13 @@
         console.log(name);
         
         // SyntaxError : Unexpected token
-        ```
         
-- **2-2. function scope & block scope**
-    
-    ## 2-2-1. Scope 범위
-    
-    - var 전역 변수 사용
-        - 전역 공간에 있는 스코프까지 오염
-        - var는 함수 단위 스코프인데 `if` 부분은 함수가 아니기 때문에 블럭 단위 스코프로 변환하지 않는 이상 전역 변수 데이터가 오염된다.
+2-2. function scope & block scope
+    2-2-1. Scope 범위
+    	- var 전역 변수 사용
+        	⊙ 전역 공간에 있는 스코프까지 오염
+        	⊙ var는 함수 단위 스코프인데 `if` 부분은 함수가 아니기 때문에 블럭 단위 스코프로 변환하지 않는 이상 전역 변수 데이터가 오염된다.
             
-            ```jsx
             var global = "전역";
             
             if(global === "전역"){
@@ -97,42 +70,31 @@
             }
             
             console.log(globla); // 지역
-            ```
             
-    - let 전역 변수 사용
-        - `if` 부분은 지역 변수 기능을 블록 단위로 수행
-            
-            ```jsx
-            let global = "전역";
-            
+    	- let 전역 변수 사용
+		
+        	⊙ `if` 부분은 지역 변수 기능을 블록 단위로 수행
+
+            let global = "전역";         
             if(global === "전역"){
             	letglobal = "지역";
-            
             	console.log(globla); // 지역
             }
-            
             console.log(globla); // 전역
-            ```
             
-        - 블록만 사용해도 동일한 기능 사용 가능
+        	⊙ 블록만 사용해도 동일한 기능 사용 가능
             
-            ```jsx
             let global = "전역";
-            
             {
             	letglobal = "지역";
-            
             	console.log(globla); // 지역
             }
-            
             console.log(globla); // 전역
-            ```
             
-    - let < const 사용
-        - const는 선언 및 할당 이후 재할당이 불가 하지만 객체 내부의 값은 변경 가능
-        → 재할당만 금지 객체 및 배열 같은 레퍼런스 객체 조작할 때는 이상 없음
+    	- let < const 사용
+        	⊙ const는 선언 및 할당 이후 재할당이 불가 하지만 객체 내부의 값은 변경 가능
+        		→ 재할당만 금지 객체 및 배열 같은 레퍼런스 객체 조작할 때는 이상 없음
             
-            ```jsx
             // 객체
             const person = {
             	name: "jang",
@@ -157,32 +119,27 @@
             
             // [{ name: "jang", age: "30" }, { name: "kim", age: "24" }]
             console.log(person);
-            ```
             
-- **2-3. 전역 공간 사용 최소화**
+2-3. 전역 공간 사용 최소화
+    2-3-1. 전역 변수
+    	- 전역 === 최상위 공간 (브라우저 or NodeJS)
+    	- 전역 변수는 두 가지로 나뉘게 된다.
+        	⊙ window : 브라우저 환경에서 돌아가는 경우 최상위
+        	⊙ global : NodeJS 환경에서 최상위
     
-    ## 2-3-1. 전역 변수
+    2-3-2. 전역 공간을 침범하면 안되는 이유
+    	- 전역 공간에서 사용 시 js 파일 코드가 겹칠 수 있다.
+    	- 파일을 나눈다고 코드의 스코프가 나뉘는 것이 아니다.
+    	- 전역 공간은 어디에서나 접근이 가능하기 때문에 오염 시키지 않는 것이 중요
+        	1) 전역 변수를 만들지 않는다.
+        	2) 지역 변수를 사용한다.
+        	3) window, global에 접근하며 조작하지 않는다.
+        	4) const와 let을 사용한다.
+        	5) Scope를 나누어 사용한다.
+        		→ IIFE, Module 등
     
-    - 전역 === 최상위 공간 (브라우저 or NodeJS)
-    - 전역 변수는 두 가지로 나뉘게 된다.
-        - window : 브라우저 환경에서 돌아가는 경우 최상위
-        - global : NodeJS 환경에서 최상위
+    2-3-3. 코드 예제
     
-    ## 2-3-2. 전역 공간을 침범하면 안되는 이유
-    
-    - 전역 공간에서 사용 시 js 파일 코드가 겹칠 수 있다.
-    - 파일을 나눈다고 코드의 스코프가 나뉘는 것이 아니다.
-    - 전역 공간은 어디에서나 접근이 가능하기 때문에 오염 시키지 않는 것이 중요
-        1. 전역 변수를 만들지 않는다.
-        2. 지역 변수를 사용한다.
-        3. window, global에 접근하며 조작하지 않는다.
-        4. const와 let을 사용한다.
-        5. Scope를 나누어 사용한다.
-        → IIFE, Module 등
-    
-    ## 2-3-3. 코드 예제
-    
-    ```jsx
     // index2.js
     // "globla" 출력
     console.log(globalVar);
@@ -206,9 +163,7 @@
     	<script src="./index.js"></script>
     	<script src="./index2.js"></script>
     </html>
-    ```
     
-    ```jsx
     // index.js
     var globalVar = "global";
     
@@ -230,29 +185,24 @@
     for(var i=0; i< array.length; i++){
     	const element = array[i];
     }
-    ```
     
-- **2-4. 임시변수 제거하기**
+2-4. 임시변수 제거하기
+    2-4-1. 임시변수 CRUD
+    	- 임시 객체도 속한 함수가 커지면 전역 공간이나 다름 없는 상황이 발생할 수 있다.
+    	- 임시 변수를 사용하지 않는 방법을 많이 고민할 것
+    	- 임시 변수를 제거해야 하는 이유
+        	⊙ 명령형 코드이기 때문
+        	⊙ 파악하기 힘든 디버깅
+        	⊙ 코드 유지보수가 어렵다.
+    	- 임시 변수 제거 해결책
+        	⊙ 함수를 나눈다.
+        	⊙ 함수 객체 바로 반환
+        	⊙ 고차 함수 사용 (map( ), filter( ), reduce( ) 등)
+        	⊙ 선언형 코드로 수정
     
-    ## 2-4-1. 임시변수 CRUD
-    
-    - 임시 객체도 속한 함수가 커지면 전역 공간이나 다름 없는 상황이 발생할 수 있다.
-    - 임시 변수를 사용하지 않는 방법을 많이 고민할 것
-    - 임시 변수를 제거해야 하는 이유
-        - 명령형 코드이기 때문
-        - 파악하기 힘든 디버깅
-        - 코드 유지보수가 어렵다.
-    - 임시 변수 제거 해결책
-        - 함수를 나눈다.
-        - 함수 객체 바로 반환
-        - 고차 함수 사용 (map( ), filter( ), reduce( ) 등)
-        - 선언형 코드로 수정
-    
-    ## 2-4-2. 코드 예제
-    
-    - 임시 객체 → 객체 사용 → 객체 반환
+    2-4-2. 코드 예제
+    	- 임시 객체 → 객체 사용 → 객체 반환
         
-        ```jsx
         // 1. 임시 객체 사용
         function getElements() {
         	const result = {}; // 임시 객체
@@ -287,9 +237,7 @@
         	// 함수 역할만 봤을 땐 DOM 엘리먼트를 가져와 반환만 하기 때문에 
         	// 객체를 만드는 것보다는 바로 반환하는 것이 더 명확해질 수 있다.
         }
-        ```
         
-        ```jsx
         // 추가적인 스펙 기획, 요구 사항이 생겼을 때 오류 발생 가능성이 높다
         function getDateTime(targetDate) {
         	let month = targetDate.getMonth();
@@ -326,40 +274,32 @@
         		hour : currentDateTime.hour + "/",
         	};
         }
-        ```
         
-    - 기타
+    	- 기타
         
-        ```jsx
         // 값으로 귀결되는 함수
         function genRandomNumber(min, max) {
         	const randomNumber = Math.floor(Math.random() * (max+1) + min);
         	
         	return randomNumber;
         }
-        ```
         
-- **2-5. 호이스팅 주의하기**
-    
-    ## 2-5-1. 호이스팅이란?
-    
-    - 런타임 시 선언을 최상단으로 끌어올려지는 것
-        - 코드 작성 시 예측하지 못한 실행 결과가 노출될 수 있다.
-    - 선언과 할당이 분리된 것
-    - 함수도 호이스팅 된다.
+2-5. 호이스팅 주의하기
+    2-5-1. 호이스팅이란?
+    	- 런타임 시 선언을 최상단으로 끌어올려지는 것
+        	⊙ 코드 작성 시 예측하지 못한 실행 결과가 노출될 수 있다.
+    	- 선언과 할당이 분리된 것
+    	- 함수도 호이스팅 된다.
         - 중복 선언 시 가장 마지막에 선언된 함수까지 포함
     
-    ## 2-5-2. 호이스팅 방지
+    2-5-2. 호이스팅 방지 
+    	- 함수 표현식을 사용
+        	⊙ `const`를 사용하여 생성 후 함수를 할당하는 방식
+    	- 변수 선언 → 할당 → 초기화 완료 → 정확한 분리
     
-    - 함수 표현식을 사용
-        - `const`를 사용하여 생성 후 함수를 할당하는 방식
-    - 변수 선언 → 할당 → 초기화 완료 → 정확한 분리
-    
-    ## 2-5-3. 코드 예제
-    
-    - `var` 호이스팅 동작 코드
+    2-5-3. 코드 예제 
+    	- `var` 호이스팅 동작 코드
         
-        ```jsx
         var golbal = 0;
         
         function outer() {
@@ -409,11 +349,9 @@
         };
         
         console.log(sum()); // 3
-        ```
         
-    - 변수 선언 → 할당 → 초기화 완료 → 정확한 분리
+    	- 변수 선언 → 할당 → 초기화 완료 → 정확한 분리
         
-        ```jsx
         var sum = 10;
         
         // 최상단 초기화 되어 있는 변수 출력
@@ -422,15 +360,12 @@
         function sum() {
         	return 1+2;
         };
-        ```
         
-    - `const` 사용
+		- `const` 사용
         
-        ```jsx
         console.log(sum()); // Cannot access 'sim' before initialization
         
         // 함수 표현식 (선언문과 다름)
         const sum = function() { // 익명함수 할당
         	return 1+2;
         }
-        ```

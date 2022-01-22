@@ -1,0 +1,143 @@
+3-1. 타입 검사
+    - 피연산자를 평가하여 문자열로 반환한다.
+    - 함수처럼 사용 가능하다.
+        - `typeof(a)`
+    - 동적으로 변하는 언어이기 때문에 타입도 동적이다.
+    	→ 타입 검사가 어렵다.
+    
+    3-1-1. Primitive (원시값)
+    	- 변수에 할당될 때 메모리 상에 고정된 크기로 저장된다.
+    	- 값이 저장된 메모리 영역에 직접적으로 접근한다.
+    	- Boolean, numer, String, null, undefined
+    
+    3-1-2. Peference (자료형)
+    	- Object : Array, function, Date 등
+    	- 간별해내기 어렵다.
+    
+    	function myFunction() {}
+    	class MyClass {}
+    	const str = new String("문자열");
+    
+    	typeof(myFunction) → function
+    	typeof(MyClass) → function
+    	typeof(str) → object
+    	typeof(null) → object : 언어적인 오류
+    
+    3-1-3. instanceof
+    	- 연산자를 사용하여 객체의 프로토타입 체인을 검사한다.
+    	- typeof는 불변한 원시값을 검사, instanceof는 객체에 대해 확인하기에 용이,
+        	⊙ 배열, 함수 등 Peference 타입이기 때문에 최상위가 object
+    
+    	function Person(name, age) {
+    		this.name = name;
+    		this.name = age;
+    	}
+    	
+    	const p = {
+    		name: "poco",
+    		age: 26
+    	};
+    
+    	const poco = new Person("poco", 26);
+    
+    	poco instanceof  Person → true
+    	p instanceof  Person → false
+    
+    	const arr = [];
+    	const func = function() {}
+    	const date = new Date();
+    
+    	arr instanceof Array → true
+    	func instanceof Function → true
+    	date instanceof Date → true
+    
+    	arr instanceof Object → true
+    	func instanceof Object → true
+    	date instanceof Object → true
+    
+    3-1-4. Object.prototype
+    	- Peference 타입의 최상위가 object 이기 때문에 발생하는 오류를 보안한 타입 검사
+    	- Wrapper Object까지 탐지 가능
+    
+		Object.prototype.toString.call('') → '[object String]'
+		Object.prototype.toString.call(new String('')) → '[object String]' // Wrapper Object
+    
+3-2. undefined & null
+    - 값이 없거나 정의되지 않은 상태
+    
+    3-2-1. null
+    	- 비어있는 값을 명시적으로 표현
+    	- 수학 연산에서는 '0'으로 취급
+    	- Object Type
+    
+    	!null → true
+    	!!null → false
+    
+    	null === false → false
+    	!null === true → true
+    
+    	null + 123 → 123
+    
+    3-2-2. undefined
+    - 아무것도 지정하지 않았을 때 무언가의 기본 값
+    - 변수 선언 후 값을 할당되지 않은 상태
+    - 수학 연산에서는 'NaN'으로 취급
+    - undefined Type
+    
+    ```jsx
+    let varb;
+    typepof(varb) → undefined
+    
+    undefined + 10 → NaN
+    
+    !undefined → true
+    
+    undefined == null → true
+    undefined === null → false
+    !undefined === !null → true
+    ```
+    
+3-3. Equality 줄이기
+    - 동등 연산자를 의미한다.
+    - Strict equality (===) : 타입까지 동일한지 확인이 가능하다.
+    - 사용 시 형변환(Type Casting)이 일어난다.
+    	→ 오류 위험성
+    	→ 정확한 사용법 : 수동 형변환 후 확인
+        
+        '1' == 1 → true // 느슨한 검사 → 형 변환 진행
+        1 == true → true
+        
+        '1' === 1 → false
+        1 === true → false
+        
+        const ticketNum = $("#ticketNum").value();
+        
+        Number(ticketNum.value) === 0 → true
+        ticketNum.valueAsNumber ===0 → true
+        
+3-4. 형변환 주의하기
+    - 사용자 → 명시적 변환(타입)
+    - JS → 암묵적인 변환(타입)
+    
+    11 + ' 문자와 결합' → '11 문자와 결합'
+    !!'문자열' → true
+    !!'' → false
+    
+    parseInt('9.999', 10); → 9 // 두 번째 위치는 변환 진수를 의미 (10진수 기본값 X)
+    
+3-5. isNaN
+    - is Not A Numer → 숫자가 아니다.
+    - typeof와 타입 검사 결과가 반대이다.
+    
+    // 가장 많이 표현할 수 있는 정수의 범위
+    Number.MAX_SAFE_INTEGER
+    Number.isInteger
+    
+    typeof(123) → true
+    
+    // isNaN을 쓴다는 것은 아래와 동일하다.
+    typeof(123) !== 'number' → true
+    isNaN(123) → false // 숫자가 맞다.
+    
+    isNaN(123 + '테스트'); → true // 느슨한 검사
+    Number.isNaN(123 + '테스트'); → false // 엄격한 검사
