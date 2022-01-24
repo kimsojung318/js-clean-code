@@ -1,0 +1,100 @@
+4-1. Min - Max
+    - 최소와 최대값을 다룬다.
+    - 최소와 최대값을 포함 여부를 결정한다.
+        - 이상-초과 / 이하-미만
+    - 네이밍에 최소, 최대값 포함 여부를 표현한다.
+    
+    4-1-1. 코드 예제
+	
+    function genRandomNumber(min, max) {
+    	return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+    
+    function isAduit(age) {
+    	// 최소, 최대값 (포함되는지 VS 안되는지)
+    	// 이상, 초과 VS 이하, 미만
+    	if(age >= 20){
+    		
+    	}
+    }
+    
+    // 최대값 상수로 만들기
+    const MIN_NUMBER_ = 1;
+    const MAX_NUMBER = 45;
+    const MAX_AGE = 20;
+    
+    genRandomNumber(MIN_NUMBER , MAX_NUMBER);
+    isAduit(MAX_AGE);
+    
+    // 변수 네이밍 예시
+    const MIN_NUMBER = 1; // 살짝 모호
+    const MIN_NUMBER_LIMIT = 1; // 초과, 미만
+    const MIN_IN_NUMBER = 1; // 이상, 이하
+    
+4-2. Begin - End
+    - 경계를 포함하지만 제외하는 경우
+    
+    4-2-1. 코드 예제
+    
+    function reservationDate(beginDate, endDate) {
+    	// ...some code
+    }
+    reservationDate('YYYY-MM-DD', 'YYYY-MM-DD');
+    
+4-3. First - Last
+    - 포함된 양 끝을 의미한다.
+        ⊙ ~~~부터 ~~~까지
+    
+    4-3-1. 코드 예제
+    
+    const students = ['영재', '원필', '한'];
+    
+    function getStudents(first, last){
+    	// ...some code
+    }
+    reservationDate(students[0], students[2]);
+    
+4-4. Prefix (접두사) - Suffix (접미사)
+    - 라이브러리 관점에서의 Prefix도 존재
+    - 코드를 읽는 일관성을 가질 수 있는 가장 좋은 방법
+    
+    function FactoryFunction(name){
+    	this._name = name; // Private field
+    }
+    
+    class FactoryFunction(name){
+    	#name = name; // Private class field
+    }
+    
+4-5. 매개변수의 순서가 경계다
+    - 호출하는 함수의 네이밍과 인자의 순서의 연관성을 고려한다.
+    	→ 다양한 매개변수 선언 후 인자값을 넘길 때 변수/함수명으로 기능을 유추할 수 있다.
+		
+        function someFiunc(someArg, someArg){
+        }
+        
+        // ES2015+
+        function someFiunc(someArg, ...someArg){ // ... : 나머지 매개변수
+        }
+        
+        genRandomNumber(1, 50);
+        getDates('2022-01-01', '2022-01-31');
+        genShuffleArray(1, 5);
+        
+    - 매개변수를 2개가 넘지 않도록 만든다.
+    	→ 규칙적이지 않는 매개변수가 들어올 경우 : `arguments`, `rest parameter` 사용
+    - 매개변수를 객체 담아서 넘긴다.
+    	→ 넘기는 인자값 순서가 상관이 없어진다.
+    - 랩핑하는 함수 사용한다.
+        
+        // someArg3, someArg4를 가장 많이 사용한다는 가정 하에
+        function someFunc(someArg1, someArg2, someArg3, someArg4) {
+        }
+        
+        // 매개변수 객체화
+        function someObjFunc({someArg1, someArg2, someArg3, someArg4}) {
+        }
+        
+        function getFunc(someArg1, someArg3) {
+        	someFunc(someArg1, undefined, someArg3);
+        }
