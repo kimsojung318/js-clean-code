@@ -1,0 +1,81 @@
+5-1. 값식문
+    - 삼항연산자는 값으로 귀결될 수 있다.
+    - 객체의 값에 식도 들어갈 수 있다.
+    - 값과 식을 사용한 논리를 이용하여 분기를 태울 수 있다.
+    
+5-2.  삼항 연산자 다루기
+    - 조건 ? 참[식] : 거짓[식]
+    - 3개의 피연산자를 사용
+    
+    5-2-1. 코드 예제
+        - 삼항연산자 → if문 → switch문
+        
+        // 삼항연산자 예제
+        function example() {
+        	return condition1 
+        		? value1 : condition2 
+        		? value2 : condition3 
+        		? value3 : value4;
+        }
+        
+        // 위와 식은 다르지만 동일한 예제
+        function example() {
+        	if (condition1) {
+        		return value1;
+        	} else if (condition2) {
+        		return value2;
+        	} else if (condition3) {
+        		return value3;
+        	} else {
+        		return value4;
+        	}
+        }
+        
+        // 가독성 있게 변경
+        function example() {
+        	const temp = condition;
+        	switch(key){
+        		case value;
+        			break;
+        		default:
+        			break;
+        	}
+        }
+        
+        - 괄호 사용하여 표현하기
+        
+        const example = condition1
+        	? (a === 0 ? 'zero' : 'positive')
+        	: 'negative';
+        
+        - Nullable Type이 있을 경우 대비
+        
+        const welcomeMessage = (isLogin) => {
+        	const name = isLogin ? getName() : '이름없음';
+        	
+        	return '안녕하세요. ${name}';
+        };
+        
+        const welcomeMessage = (isLogin) => {	
+        	if(isLogin) {
+        		return '안녕하세요. ${getName()}';
+        	}
+        	
+        	return '안녕하세요. 이름없음';
+        };
+        ```
+        
+        - 좋지 않은 예제 : 삼항연산자를 사용하여 식 실행
+        
+        // alert void이기 때문에 반환값이 없다.
+        // 삼항연산자보다 if문이 더 낫다고 판단
+        function alertMessage(isAdult){
+        	isAdult 
+        		? alert('입장이 가능합니다.') // undefind
+        		: alert('입장이 불가능합니다.'); // undefind
+        }
+        
+        // 명확하게 변경
+        function alertMessage(isAdult){
+        	return isAdult ? '입장이 가능합니다.' : '입장이 불가능합니다.';
+        }
