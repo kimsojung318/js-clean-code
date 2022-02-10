@@ -208,3 +208,147 @@
     		console.log("x는 0보다 크다.");
     	}
     }
+
+5-6. else 피하기
+    5-6-1. 코드 예제
+    
+    	- 기본 예제
+        
+        function getActiveUserName() {
+        	if(user.name) {
+        		return user.name
+        	}/*else {
+        		return "이름없음";
+        	}*/
+        	return "이름없음";
+        }
+        
+    	- 함수가 두 가지 기능을 할 때 오류 발생 가능성
+        
+        // age가 20 미만일 때 특수 함수 실행
+        
+        function getHelloCustomer(user) {
+        	if(user.age < 20) {
+        		report(user);
+        	}/*else { 
+        		return "안녕하세요.";
+        	}*/
+        
+        	return "안녕하세요.";
+        }
+
+5-7. Early Return
+    - 함수를 미리 종료한다.
+    - 사고하기 편하다.
+    - 하나의 로직이 많은 의존성을 가지고 있을 때 Early Return으로 코드를 분리하면 로직의 흐름이 더 간단하고 명확해진다.
+    
+    5-7-1. 코드 예제
+
+    // 원본
+    function loginService(isLogin, user) {
+    	if (!isLogin) { // 1. 로그인 여부
+    		if (checkToken()) { // 2. 토큰 존재 여부
+    			if (!user.nickName) { // 3. 기가입자 확인
+    				return registerUser(user);
+    			} else {
+    				refreshToken();
+    				return "로그인 성공";
+    			}
+    		} else {
+    			throw new Error("No Token");
+    		}
+    	}
+    }
+    
+    // 수정
+    function loginService(isLogin, user) {
+    	// Early Return 
+    	if (isLogin) { // 1. 로그인 여부
+    		return;
+    	}
+    
+    	if (!checkToken()) { // 2. 토큰 존재 여부
+    		throw new Error("No Token");
+    	}
+    
+    	if (!user.nickName) { // 3. 기가입자 확인
+    		return registerUser(user);
+    	}
+    	
+    	login();
+    }
+    
+    function login() {
+    	refreshToken();
+    	return "로그인 성공";
+    }
+    
+	// 원본
+    function oneDay(condition, weather, isJob) {
+    	if (condition === "GOOD") {
+    		study();
+    		game();
+    		youtube();
+    
+    		if (weather === "GOOD") {
+    			exercise();
+    			wash();
+    		}
+    
+    		if (isJob === = "GOOD") {
+    			nightWork();
+    			earlySleep();
+    		}
+    	}
+    }
+    
+	// 수정
+    function oneDay(condition, weather, isJob) {
+    	if (condition != "GOOD") {
+    		return
+    	}
+    	
+    	study();
+    	game();
+    	youtube();
+    
+    	if (weather === "GOOD") {
+    		exercise();
+    		wash();
+    	}
+    
+    	if (isJob === = "GOOD") {
+    		nightWork();
+    		earlySleep();
+    	}
+    }
+    
+5-8. 부정 조건문 지양하기
+    - 지양해야하는 이유
+        ⊙ 생각을 여러 번 해야할 수 있다.
+        ⊙ 프로그래밍 언어 자체로 if문이 처음부터 오고 true부터 실행 시킨다.
+    - 사용해야할 때 (부정 조건 예외)
+        ⊙ Early Return
+        ⊙ 유효성 검사
+        ⊙ 보안 혹은 검사하는 로직
+    
+    5-8-2. 코드 예제
+   
+        const isCondition = true;
+        const isNotCondition = false;
+        
+        // 숫자일 때만
+        function isNumber(num) {
+        	return !Number.isNaN(num) && typeof num === "number";
+        }
+        if(isNumber(3)) {
+        	console.log("숫자인 경우 실행");
+        }
+        
+        if(!isCondition) {
+        	console.log("거짓인 경우 실행");
+        }
+        
+        if(!isNotCondition) {
+        	console.log("거짓인 경우 실행");
+        }
