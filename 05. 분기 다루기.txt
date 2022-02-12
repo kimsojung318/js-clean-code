@@ -352,3 +352,49 @@
         if(!isNotCondition) {
         	console.log("거짓인 경우 실행");
         }
+
+5-9. Defalut Case 고려하기**
+    - 확장성 높은 코드 작성을 위해 사용한다.
+    - 사용자 입력을 받는 코드는 사용자 잘못을 염두에 두어야한다.
+    - 이미 만들어진 코드도 함수로 래핑하여 안전하게 기본값을 명시할 수 있다.
+    
+    5-9-1. 코드 예제
+    
+    function sum(x, y) {
+    	// 함수 호출 시 매개값이 없을 경우
+    	x = x || 1;
+    	y = y || 1;
+    	return x + y;
+    }
+    sum();
+    
+    function createElement(type, height, width) {
+        const element = document.createElement(type || "div");
+    
+        element.style.height = height || 100;
+        element.style.width = width || 100;
+    
+        return element;
+    }
+    createElement("div");
+    
+    function registerDay(userInputDay) {
+        switch (userInputDay) {
+            case "월요일": // some code
+            case "화요일": // some code
+            case "수요일": // some code
+            case "목요일": // some code
+            case "금요일": // some code
+            case "토요일": // some code
+            case "일요일": // some code
+            default:
+                throw Error("입력값이 유효하지 않습니다.");
+        }
+    }
+    e.target.value = "월ㄹ요일";
+    registerDay(e.target.value);
+    
+    // parseInt(x, base); 
+    function safeParseInt(number, radix) {
+        return parseInt(number, radix || 10);
+    }
