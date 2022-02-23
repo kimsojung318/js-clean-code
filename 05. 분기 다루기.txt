@@ -398,3 +398,30 @@
     function safeParseInt(number, radix) {
         return parseInt(number, radix || 10);
     }
+
+5-10. 명시적인 연산자 사용 지향하기
+    - 괄호를 사용하여 우선순위를 명시하자.
+    - 예측 가능하고 디버깅 하기가 쉽다.
+    - 연산자 우선 순위를 사용하자.
+    
+    5-10-1. 코드 예제
+    
+    let number;
+    
+    // 원본
+    function increment(number) {
+    	number--;
+    }
+    function increment(number) {
+    	number++;
+    }
+    
+    // 수정
+    function increment() {
+    	number = number - 1;
+    }
+    function increment() {
+    	number = number + 1;
+    }
+    
+    if((isLogin && token) || user) // Ex. (((x + y) * z) &&)
