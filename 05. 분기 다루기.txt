@@ -425,3 +425,39 @@
     }
     
     if((isLogin && token) || user) // Ex. (((x + y) * z) &&)
+
+5-11. Nullish coalescing operator
+    - null이거나 undefined인 경우 병합 연산자 사용
+    - false인 경우 or 연산자 사용
+    
+    5-11-1. 코드 예제
+        - or 연산자
+        
+        function createElementOr(type, height, width){
+            // or 연산자 사용 (||)
+            const element = document.createElement(type || "div");
+            element.style.height = String(height || 10) + "px";
+            element.style.width = String(width || 10) + "px";
+            
+            return element;
+        }
+        
+        const el = createElementOr("div", 0, 0);
+        // el.style.height == 10px
+        // el.style.width  == 10px
+        // or 연산자로 비교할 경우 좌항은 false인 경우
+        
+        - 병합 연산자
+
+        function createElement(type, height, width){
+            // null 병합 연산자 사용 (??)
+            const element = document.createElement(type ?? "div");
+            element.style.height = String(height ?? 10) + "px";
+            element.style.width = String(width ?? 10) + "px";
+            
+            return element;
+        }
+        
+        const ele = createElement("div", 0, 0);
+        // ele.style.height == 0px
+        // ele.style.width  == 0px
